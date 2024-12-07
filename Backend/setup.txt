@@ -1,0 +1,11 @@
+
+*****The live backend is deployed on https://urlshortner-1d02.onrender.com so use postman to hit api endpoints******
+
+
+To reproduce loacally
+
+1)Clone the repository
+2)Go to file and in terminal typr cd backend
+3)Install all dependacies
+4)Now use nodemon index.js to run server loacally
+5)Use all api endpoints to see how backend works.
