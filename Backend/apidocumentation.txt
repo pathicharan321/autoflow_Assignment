@@ -1,0 +1,154 @@
+1. Create a Short URL
+POST /api/urls
+Description:Creates a shortened URL with an optional custom alias and generates a QR code
+***********Please do not use leetcode,autoflow url as longUrl as they are used already and will throw error***
+Request Body:
+{
+  "longUrl": "string (required)",
+  "customalias": "string (optional)"
+}
+example of req body:
+{
+    "longUrl":"https://autoflow.tools/",
+    "customalias":"autoflow"
+}
+Response:
+200 OK:Returns the newly created URL details.
+example respone:
+{
+    "longUrl": "https://autoflow.tools/",
+    "shortUrl": "autoflow",
+    "qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKsSURBVO3BQY7YSAwEwSxC//9y7hx5akCQNGvTjIg/WGMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRrl4qEk/CaVkyR0Kl0STlS6JPwmlSeKNUqxRinWKBcvU3lTEu5Q6ZLQqXRJuEPlTUl4U7FGKdYoxRrl4mNJuEPljiScqHRJ6FSeSMIdKl8q1ijFGqVYo1z845LQqfzNijVKsUYp1igXwyXhX1KsUYo1SrFGufiYyv9J5SQJT6j8SYo1SrFGKdYoFy9Lwv9JpUtCp/JEEv5kxRqlWKMUa5T4g79YEt6k8jcr1ijFGqVYo1w8lIROpUvCm1Q6lSeScJKEN6l8qVijFGuUYo1y8TGVLgmdSpeETqVLQqfSJeFE5SQJncpJEu5IwonKE8UapVijFGuU+IMXJeEJlS4JJyp3JKFT6ZJwonKShDtU3lSsUYo1SrFGufiYSpeETuVEpUtCl4ROpUtCp3KickcS/iTFGqVYoxRrlIuXqXRJ6FTuSEKn0iWhS0Kn0iWhU/mSym8q1ijFGqVYo1x8TOUJlS8l4UtJ6FS6JHQqTxRrlGKNUqxR4g8eSMJvUrkjCZ1Kl4ROpUtCp3JHEk5U3lSsUYo1SrFGuXiZypuScJKEO5JwkoSTJHQqXRJOVL5UrFGKNUqxRrn4WBLuUPmSSpeETuWOJHQqdyShU3miWKMUa5RijXIxjMqXknCShE7lROVNxRqlWKMUa5SLf0wSOpUuCZ1Kp3KShP9TsUYp1ijFGuXiYypfUjlJQqdyonKShDuS0Kl8qVijFGuUYo1y8bIk/KYk3JGETqVLQqfSqTyRhE7lTcUapVijFGuU+IM1RrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUf4DJmsB+kTx1awAAAAASUVORK5CYII=",
+    "clicks": 0,
+    "_id": "6753e08c043416d2ad0b3d23",
+    "createdAt": "2024-12-07T05:43:40.326Z",
+    "__v": 0
+}
+If you duplicate same customalias it will throw eerror.
+2.Get All Short URLs
+GET /api/urls
+Description:Retrieves all short URLs and their corresponding long URLs.
+Response:
+200 OK:
+[
+  {
+    "shortUrl": "string",
+    "longUrl": "string"
+  }
+]
+example response:
+[
+    {
+        "longUrl": "https://leetcode.com/",
+        "shortUrl": "m-3DNIa_Rk"
+    },
+    {
+        "longUrl": "https://autoflow.tools/",
+        "shortUrl": "autoflow"
+    }
+]
+500 Internal Server Error:If the request fails.
+
+3.Get Details for a Short URL
+GET api/urls/:code
+Description:Fetches details of a short URL using its code.
+Path Parameters:       :code - Short URL code.
+example request:    get http://localhost:4000/api/urls/autoflow
+Response:
+200 OK:
+Returns the details of the short URL.
+example:
+{
+  "_id": "string",
+  "longUrl": "string",
+  "shortUrl": "string",
+  "clicks": "number",
+  "qrcode": "string (Base64 encoded QR code)"
+}
+
+example response:
+{
+    "_id": "6753e08c043416d2ad0b3d23",
+    "longUrl": "https://autoflow.tools/",
+    "shortUrl": "autoflow",
+    "qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKsSURBVO3BQY7YSAwEwSxC//9y7hx5akCQNGvTjIg/WGMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRrl4qEk/CaVkyR0Kl0STlS6JPwmlSeKNUqxRinWKBcvU3lTEu5Q6ZLQqXRJuEPlTUl4U7FGKdYoxRrl4mNJuEPljiScqHRJ6FSeSMIdKl8q1ijFGqVYo1z845LQqfzNijVKsUYp1igXwyXhX1KsUYo1SrFGufiYyv9J5SQJT6j8SYo1SrFGKdYoFy9Lwv9JpUtCp/JEEv5kxRqlWKMUa5T4g79YEt6k8jcr1ijFGqVYo1w8lIROpUvCm1Q6lSeScJKEN6l8qVijFGuUYo1y8TGVLgmdSpeETqVLQqfSJeFE5SQJncpJEu5IwonKE8UapVijFGuU+IMXJeEJlS4JJyp3JKFT6ZJwonKShDtU3lSsUYo1SrFGufiYSpeETuVEpUtCl4ROpUtCp3KickcS/iTFGqVYoxRrlIuXqXRJ6FTuSEKn0iWhS0Kn0iWhU/mSym8q1ijFGqVYo1x8TOUJlS8l4UtJ6FS6JHQqTxRrlGKNUqxR4g8eSMJvUrkjCZ1Kl4ROpUtCp3JHEk5U3lSsUYo1SrFGuXiZypuScJKEO5JwkoSTJHQqXRJOVL5UrFGKNUqxRrn4WBLuUPmSSpeETuWOJHQqdyShU3miWKMUa5RijXIxjMqXknCShE7lROVNxRqlWKMUa5SLf0wSOpUuCZ1Kp3KShP9TsUYp1ijFGuXiYypfUjlJQqdyonKShDuS0Kl8qVijFGuUYo1y8bIk/KYk3JGETqVLQqfSqTyRhE7lTcUapVijFGuU+IM1RrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUf4DJmsB+kTx1awAAAAASUVORK5CYII=",
+    "clicks": 0,
+    "createdAt": "2024-12-07T05:43:40.326Z",
+    "__v": 0
+}
+404 Not Found:
+If the short URL does not exist.
+Example:{ "message": "Short URL not found" }
+500 Internal Server Error:If the request fails.
+
+
+4.Delete a Short URL
+DELETE api/urls/:code
+Description:Deletes a short URL and its associated data.
+Path Parameters:     :code - Short URL code.
+Response:
+(200 OK:  { "message": "Url deleted successfully" })
+(404 Not Found:   If the short URL does not exist.)
+(500 Internal Server Error:If the request fails.)
+
+
+5.Redirect Using Short URL
+GET  api/:code
+Description:Redirects to the long URL corresponding to the short URL code and logs user analytics (city and country).
+Path Parameters:      :code - Short URL code.
+Response:
+(302 Found:  Redirects to the long URL.)
+(404 Not Found:If the short URL does not exist.{ "message": "Short URL not found" })
+(500 Internal Server Error:If analytics logging or redirection fails.)
+
+
+6.Get Analytics for a Short URL
+GET api/urls/:code/stats
+Description:Fetches the analytics data and click count for a specific short URL.
+Path Parameters:    :code - Short URL code.
+example request:  http://localhost:4000/api/urls/m-3DNIa_Rk/stats
+Response:
+200 OK:
+{
+  "No.ofClicks": "number",
+  "analytics": [
+    {
+      "_id": "string",
+      "shortUrl": "string",
+      "city": "string",
+      "country": "string"
+    }
+  ]
+}
+
+ex response:
+{
+    "No.ofClicks": 8,
+    "analytics": [
+        {
+            "_id": "67530b187aab1f18ee273c68",
+            "shortUrl": "m-3DNIa_Rk",
+            "city": "Visakhapatnam",
+            "country": "India",
+            "__v": 0
+        }
+    ]
+}
+(404 Not Found: If the short URL does not exist.)
+(500 Internal Server Error:If the request fails.)
+
+7. Get QR Code for a Short URL
+GET api/urls/:code/qr
+Description:Fetches the QR code for a specific short URL.
+
+example request:http://localhost:4000/api/urls/m-3DNIa_Rk/qr
+Path Parameters:           :code - Short URL code.
+
+Response:
+(200 OK:{ "Qrcode": "string (Base64 encoded QR code)" })
+(404 Not Found:(If the short URL does not exist). { "message": "Short URL not found" })
+(500 Internal Server Error:  If the request fails.)
+example response:
+{
+    "Qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAK8SURBVO3BQY7cQAwEwSxC//9yeo88NSBIM17TjIg/WGMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRrl4qEkfJPKSRLuUDlJwjepPFGsUYo1SrFGuXiZypuS8ITKm1TelIQ3FWuUYo1SrFEuPiwJd6jckYRO5Y4kdCp3JOEOlU8q1ijFGqVYo1wMk4T/WbFGKdYoxRrlYhiVkyRMVqxRijVKsUa5+DCVb0pCp9KpdEl4QuU3KdYoxRqlWKNcvCwJf5NKl4RO5Ykk/GbFGqVYoxRrlIuHVH4zlS4Jd6j8S4o1SrFGKdYoFw8loVPpkvAmlU6lS8KJSpeEkyS8SeWTijVKsUYp1igXD6k8odIloVPpknCi8kQSTlROktCpnCShU3miWKMUa5RijXLxsiScqHRJ6FS6JHQqJ0m4Q6VLwpuS0Kl0Km8q1ijFGqVYo1x8mEqXhDtUuiR0Kp3Km1TuUOmS0CWhU3lTsUYp1ijFGuXiy1S6JJwk4SQJJypdEjqVO5LQqXRJ6FS6JHRJ6FSeKNYoxRqlWKPEH/zDktCpdEm4Q+UkCScqXRI6lS4JncoTxRqlWKMUa5SLh5LwTSqdyonKSRJOktCpnCShU+mS0Km8qVijFGuUYo1y8TKVNyXhJAknKl0STpLQqTyRhE6lS0Kn8kSxRinWKMUa5eLDknCHyhMqXRI6lS4JnUqXhDtUuiR8U7FGKdYoxRrlYpgkdCqfpNIl4Q6VNxVrlGKNUqxRLoZROUlCp9Il4UTlRKVLwjcVa5RijVKsUS4+TOWTVLoknKicqJwk4Tcr1ijFGqVYo8QfPJCEb1LpktCpdEk4UXkiCZ1Kl4QTlTcVa5RijVKsUeIP1hjFGqVYoxRrlGKNUqxRijVKsUYp1ijFGqVYoxRrlGKNUqxRijVKsUb5A2hSGOwqIqKyAAAAAElFTkSuQmCC"
+}
