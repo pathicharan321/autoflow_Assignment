@@ -1,3 +1,7 @@
+
+
+*****The live backend is deployed on https://urlshortner-1d02.onrender.com so use postman to hit api endpoints******
+
 1. Create a Short URL
 POST /api/urls
 Description:Creates a shortened URL with an optional custom alias and generates a QR code
